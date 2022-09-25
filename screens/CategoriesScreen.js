@@ -1,11 +1,34 @@
-import { View, Text, StyleSheet, Button } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Button,
+  FlatList,
+  Text,
+  TouchableOpacity,
+} from "react-native";
+import { CATEGORIES } from "../data/dummy-data";
 
+const CategoriesScreen = ({ navigation }) => {
+  const gridItem = (itemData) => {
+    return (
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("Category Meal", {
+            categoryId: itemData.item.id,
+          })
+        }
+        style={{ flex: 1 }}
+      >
+        <View style={styles.gridItem}>
+          <Text>{itemData.item.title}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
-const CategoriesScreen = ({navigation}) => {
   return (
     <View style={styles.screen}>
-      <Text>CategoriesScreen</Text>
-      <Button title="Go to category meals" onPress={() =>  navigation.navigate('Category Meal')} />
+      <FlatList numColumns={2} data={CATEGORIES} renderItem={gridItem} />
     </View>
   );
 };
@@ -13,8 +36,15 @@ const CategoriesScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    paddingVertical: 30,
+  },
+  gridItem: {
+    flex: 1,
+    margin: 15,
+    borderColor: "grey",
+    borderWidth: 1,
+    padding: 10,
+    height: 150,
   },
 });
 

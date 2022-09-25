@@ -3,7 +3,11 @@ import { StyleSheet, Text, View } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
 
-import PageNavigator from "./navigation/MealsNavigator";
+import { enableScreens } from "react-native-screens";
+
+import Navigation from "./navigation/MealsNavigator";
+
+enableScreens();
 
 const fetchFonts = async () => {
   await Font.loadAsync({
@@ -39,5 +43,5 @@ export default function App() {
     return null;
   }
 
-  return <PageNavigator />;
+  return <Navigation />;
 }

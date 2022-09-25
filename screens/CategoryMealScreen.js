@@ -1,24 +1,33 @@
-import { View, Text, StyleSheet, Button } from "react-native";
+import { useEffect, useState } from "react";
+import { View, StyleSheet, FlatList } from "react-native";
 
-const CategoryMealScreen = ({ navigation }) => {
-  return (
-    <View style={styles.screen}>
-      <Text>CategoryMealScreen</Text>
-      <Button
-        title="Go to details"
-        onPress={() => navigation.navigate("Meal Details")}
-      />
-      <Button title="Go back" onPress={() => navigation.goBack()}/>
-    </View>
-  );
+import MealList from "../components/MealList";
+
+import { CATEGORIES, MEALS } from "../data/dummy-data";
+
+const CategoryMealScreen = ({ route, navigation }) => {
+  const { categoryId } = route.params;
+
+  const [meals, setMeals] = useState([]);
+
+  useEffect(() => {
+    let selectedCategory = CATEGORIES.find(
+      (category) => category.id === categoryId
+      
+    );
+
+    navigation.setOptions({ title: selectedCategory.title });
+
+    const categoryMeals = MEALS.filter(
+      (meal) => meal.categoryIds.indexOf(categoryId) >= 0
+    );
+
+    setMeals(categoryMeals);
+  }, []);
+
+  return <MealList listData={meals} navigation={navigation} />;
 };
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+const styles = StyleSheet.create({});
 
 export default CategoryMealScreen;
